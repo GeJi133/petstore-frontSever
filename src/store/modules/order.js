@@ -1,26 +1,39 @@
 import { getOrders } from '@/api/order'
-import {deleteOrder} from '@/api/order'
+import { gerOrder } from '@/api/order'
+
 const order = {
-    action: {
-        getOrders({commit}){
+    state: () => ({
+        count: 0
+      }),
+    actions: {
+        GetOrders({commit}){
             return new Promise((resolve,reject)=>{
                 getOrders().then(response => {
-                    commit('')
+                    commit('INCREMENT')
                     resolve(response)
                 }).catch(error => {
                     reject(error)
                 })
             })
         },
-        deleteOrder({commit},orderId){
+        GerOrder({commit},orderId){
             return new Promise((response,reject) =>{
-                deleteOrder(orderId).then(response=>{
-                    commit('')
+                getOrder(orderId).then(response=>{
+                    commit('INCREMENT')
                     resolve(response)
                 }).catch(error=>{
                     reject(error)
                 })
             })
+        }
+    },
+    mutations:{
+        INCREMENT(state) {
+          state.count++;
+        },
+        // 减1
+        DECREMENT(state) {
+          state.count--
         }
     }
 }

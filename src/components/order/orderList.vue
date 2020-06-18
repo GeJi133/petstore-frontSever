@@ -61,48 +61,37 @@
           <div class="col">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">商品种类</h5>
-                <!-- <a href="../catalog/addCategory.html" class="btn btn-primary m-b-md">添加商品种类</a> -->
-                <button
-                          @click="getProducts('BIRDS')"
-                          type="button"
-                          class="btn btn-outline-info"
-                        >查看</button>
+                <h5 class="card-title">订单列表</h5>
+                <h5 class="card-title">{{this.$route.query.username}}</h5>
+
                 <table id="zero-conf" class="display" style="width:100%">
                   <thead>
                     <tr>
-                      <th>种类Id</th>
-                      <th>种类名</th>
-                      <th>商品描述</th>
-                      <th>查看</th>
+                      <th>订单号</th>
+                      <th>下单用户</th>
+                      <th>下单时间</th>
+                      <th>订单状态</th>
+                      <th>总价</th>
+                      <th>查看详情</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <tr vue-for="category in this.$route.query.categoryList">
-                      <td>{{categoty.categoryId}}</td>
-                      <td>{{categoty.name}}</td>
-                      <td>{{category.description}}</td>
-                      <td>
-                        <button
-                          @click="getProducts(category.categoryId)"
-                          type="button"
-                          class="btn btn-outline-info"
-                        >查看</button>
 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>name</td>
-                      <td>descn</td>
+                  <tbody>
+                    <tr v-for="order in this.$route.query.orderList">
+                      <td>{{order.orderId}}</td>
+                      <td>{{order.username}}</td>
+                      <td>{{order.orderDate}}</td>
                       <td>
-                        <button type="button" class="btn btn-outline-info">删除</button>
+                        <p v-if="order.status=='s'">未支付</p>
+                        <p v-if="order.status=='p'">待发货</p>
+                        <p v-if="order.status=='r'">已发货</p>
                       </td>
-                    </tr>
-                    <tr>
-                      <td>name</td>
-                      <td>descn</td>
+                      <td>{{order.totalPrice}}</td>
                       <td>
-                        <button type="button" class="btn btn-outline-info">删除</button>
+                        <a @click="getItem(order.orderId)">查看详情</a>
+                      </td>
+                      <td v-if="order.status=='p'">
+                        <a @click="ship(order.orderId)"></a>
                       </td>
                     </tr>
                   </tbody>
@@ -133,36 +122,62 @@ export default {
   name: "orderList",
   data() {
     return {
-      categoryList: []
+      orderList: []
     };
   },
   mounted: function() {
-    this.categoryList = this.$route.params.categoryList;
+    this.orderList = this.$route.params.orderList;
   },
   methods: {
-    getProducts(categoryId) {
-      console.log("getProducts");
+    ship(itemId) {
+      var order = {};
+      this.$store.dispatch("GetItem", itemId).then(response => {
+        this.loading = false;
+        order = response.data.data;
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+
+        if (status == 200) {
+          order.status = "r";
+          console.log("getItem");
+          this.loading = true;
+          this.$store.dispatch("UpdateItem", this.order).then(response => {
+            this.loading = false;
+            console.log("进来orderList");
+            let status = response.data.code;
+            console.log("orderList", response.data.data);
+
+            if (status == 200) {
+              var order = response.data.data;
+              console.log("order", order.orderId);
+              alert("发货成功");
+            }
+          });
+        }
+      });
+    },
+    getItem(itemId) {
+      console.log("getItem");
       this.loading = true;
-      this.$store.dispatch("GetProducts",categoryId).then(response => {
+      this.$store.dispatch("GetItem", itemId).then(response => {
         this.loading = false;
         console.log("进来orderList");
         let status = response.data.code;
         console.log("orderList", response.data.data);
 
         if (status == 200) {
-          var productList = response.data.data;
-          console.log("order", orderList[1].orderId);
+          var order = response.data.data;
+          console.log("order", order.orderId);
           this.$router.push({
             // path: "/orderList",
-            path: "/manageProducts",
+            path: "/editOrder",
             query: {
-              productList: productList,
+              order: order
             }
           });
         }
       });
-    },
-    ship(orderId) {}
+    }
   }
 };
 </script>

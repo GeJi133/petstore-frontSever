@@ -13,7 +13,7 @@ export default new Router({
       },
       {
         path: '/main',
-        component: (resolve) => require(['../components/account1/main.vue'], resolve)//实现懒加载
+        component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve)//实现懒加载
       },
     {
         path: "/admin",
@@ -38,7 +38,7 @@ export default new Router({
     }, 
     {
         path: '/editProduct',
-        component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve)
+        component: (resolve) => require(['../components/catalog/main.vue'], resolve)
     }, 
     {
         path: '/manageItems',
@@ -55,6 +55,11 @@ export default new Router({
     {
         path: '/viewItem',
         component: (resolve) => require(['../components/catalog/viewItem.vue'], resolve)
+    }
+    , 
+    {
+        path: '/orderList',
+        component: (resolve) => require(['../components/order/orderList.vue'], resolve)
     }
     // {
     //     path: "/catalog",

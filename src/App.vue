@@ -14,6 +14,7 @@
       </div>
       <div class="page-sidebar-inner slimscroll">
         <ul class="accordion-menu">
+       
           <p id="checkInfo"></p>
           <li>
             <a href="#">
@@ -22,13 +23,7 @@
             </a>
             <ul class="sub-menu">
               <li>
-                <a href="/users/viewAccount">信息查看</a>
-              </li>
-              <li>
-                <a href="/users/editAccountInfoForm">信息修改</a>
-              </li>
-              <li>
-                <a href="/users/editPasswordForm">密码重置</a>
+                <a @click="viewAccount">信息查看</a>
               </li>
             </ul>
           </li>
@@ -37,15 +32,9 @@
               <i class="material-icons">apps</i>商品管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
-            <ul class="sub-menu">
+            <ul>
               <li>
-                <a href="../catalog/manageCategory.html">管理商品种类</a>
-              </li>
-              <li>
-                <a href="../catalog/manageProduct.html">管理商品类型</a>
-              </li>
-              <li>
-                <a href="../catalog/manageItems.html">管理商品</a>
+                <a @click="managecategory">管理商品种类</a>
               </li>
             </ul>
           </li>
@@ -56,7 +45,7 @@
             </a>
             <ul class="sub-menu">
               <li>
-                <a href="../order/orderList.html">查看订单</a>
+                <a @click="orderList">查看订单</a>
               </li>
             </ul>
           </li>
@@ -66,7 +55,6 @@
 
     <!-- 以上是top部分 -->
     <router-view />
-
   </div>
 </template>
 
@@ -84,14 +72,72 @@ export default {
         src: { type: String, required: true }
       }
     }
+  },
+  methods: {
+    managecategory() {
+        this.loading = true
+        this.$store.dispatch('GetCategorys').then(response =>{
+        this.loading=false;
+        console.log('进来categoryList');
+        let status = response.data.code;
+        console.log("orderList",response.data.data);
+        if(status == 200){
+          var categoryList = response.data.data;
+          console.log("order",productList[1].categoryId);
+          console.log("manageCategory");
+          this.$router.push({
+            path: "/manageCategory",
+            query: {categoryList: ca}
+          });
+        }
+      })
+
+    },
+    manageProduct() {
+    },
+    manageItem() {
+      console.log("manageItem");
+      this.$router.push({
+        path: "/manageItem",
+        query: {}
+      });
+    },
+    orderList() {
+      console.log("orderList");
+      this.loading = true
+      this.$store.dispatch('GetOrders').then(response =>{
+        this.loading=false;
+        console.log('进来orderList');
+        let status = response.data.code;
+        console.log("orderList",response.data.data);
+        
+        if(status == 200){
+          var orderList = response.data.data;
+          console.log("order",orderList[1].orderId);
+          this.$router.push({
+                  path: "/orderList",
+                  query: {
+                    orderList:orderList,
+                    username:"username"
+                    }
+      });
+        }
+      })      
+    },
+    viewAccount() {
+      console.log("viewAccount");
+      this.$router.push({
+        path: "/viewAccount",
+        query: {}
+      });
+    }
   }
 };
 </script>
-
 <style>
 /* @import "assets/css/connect2.css"; */
 @import "assets/plugins/bootstrap/css/bootstrap.min.css";
-@import "assets/plugins/font-awesome/css/all.min.css"; 
+@import "assets/plugins/font-awesome/css/all.min.css";
 @import "assets/css/dark_theme.css";
 @import "assets/css/custom.css";
 @import "assets/css/admin3.css";

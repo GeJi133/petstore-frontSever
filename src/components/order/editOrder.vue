@@ -48,66 +48,66 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Order</a>
+              <a href="#">home</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">ViewOrders</li>
+            <li class="breadcrumb-item active" aria-current="page">home</li>
           </ol>
         </nav>
       </div>
-
       <!-- 页面内容 -->
       <div class="main-wrapper">
         <div class="row">
           <div class="col-xl">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">修改商品</h4>
-                <h5 class="card-title">productid</h5>
+                <h4 class="card-title">修改订单信息</h4>
+                <h5 class="card-title">orderId{{this.order.orderId}}</h5>
+                <h5 class="card-title">卖家姓名{{this.order.username}}</h5>
+
+                <h5 class="card-title">收获地址{{this.order.billAddress1}}</h5>
+
+                <h5 class="card-title">下单时间{{this.order.OrderDate}}</h5>
+
+                <h5 class="card-title">总价{{this.order.totalPrice}}</h5>
+
+                <h5 class="card-title">付款方式{{this.order.cardType}}</h5>
+
+                <h5 class="card-title">订单状态{{this.order.status}}</h5>
+
+
                 <form>
+                  <p class="m-t-sm">发货地址:</p>
+                  <div class="custom-control custom-radio">
+                    <input
+                      class="custom-control-input"
+                      type="text"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      v-bind="order.billAddress1"
+                      checked
+                    />
+                    <input
+                      class="custom-control-input"
+                      type="text"
+                      name="exampleRadios"
+                      id="exampleRadios1"
+                      v-bind="order.billAddress2"
+                      checked
+                    />
+       
+
                   <div class="form-group">
-                    <label for="exampleInputEmail1">商品名</label>
+                    <label for="exampleInputEmail1">备注</label>
                     <input
                       type="text"
-                      v-model="productForm.name"
                       class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="sel1">类别</label>
-                    <select class="form-control" v-model="productForm.categoryId" id="sel1">
-                      <option
-                        v-for="category in categoryList"
-                        v-bind="category.categoryId"
-                      >{{category.name}}</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">商品描述</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="productForm.description"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">详细描述</label>
-                    <textarea
-                      type="text"
-                      class="form-control"
-                      v-model="productForm.descriptionText"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
                       placeholder="Enter email"
                     />
                   </div>
 
-                  <button type="submit" class="btn btn-primary">提交修改</button>
+                  <button @click="updateOrder()" class="btn btn-primary">提交修改</button>
                 </form>
               </div>
             </div>
@@ -135,60 +135,26 @@ export default {
   name: "orderList",
   data() {
     return {
-      productForm: {
-        productId: "",
-        categoryId:"",
-        description:""
-      },
-      categoryList: {},
-      productList: {}
+      order: {}
     };
   },
 
   created() {
-      this.productForm=this.$route.params.product
-    this.loading = true;
-    this.$store.dispatch("GetCategorys").then(response => {
-      this.loading = false;
-      console.log("进来categoryList");
-      let status = response.data.code;
-      console.log("orderList", response.data.data);
-      if (status == 200) {
-        this.categoryList = response.data.data;
-        console.log("order", productList[1].categoryId);
-        console.log("manageCategory");
-      }
-    });
+    this.order = this.$route.params.order;
   },
   methods: {
-    viewOrder(orderId) {},
-    ship(orderId) {},
-    getProducts() {
-      var categoryId = this.selectCategory;
-      console.log("getProducts");
+
+    updateOrder() {
+ 
       this.loading = true;
-      this.$store.dispatch("GetProducts", categoryId).then(response => {
+      this.$store.dispatch("UpdateOrder", this.order).then(response => {
         this.loading = false;
-        console.log("进来orderList");
+        console.log("updateOrder");
         let status = response.data.code;
         console.log("orderList", response.data.data);
 
         if (status == 200) {
-          this.productList = response.data.data;
-          console.log("order", orderList[1].orderId);
-        }
-      });
-    },
-    newProduct() {
-      console.log("newProduct");
-      this.loading = true;
-      this.$store.dispatch("newProduct", this.productForm).then(response => {
-        this.loading = false;
-        let status = response.data.code;
-        if (status == 200) {
-          alert("插入成功");
-        } else {
-          alert("插入失败");
+          alert("修改成功");
         }
       });
     }
