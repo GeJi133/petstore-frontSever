@@ -10,7 +10,7 @@ export function getOrders () {
 export function getOrder (orderId) {
 
     return request({
-      url: '/orders/view'+orderId,
+      url: '/orders/view/'+orderId,
       method: 'get',
     })
   }

@@ -88,7 +88,7 @@
                       </td>
                       <td>{{order.totalPrice}}</td>
                       <td>
-                        <a @click="getItem(order.orderId)">查看详情</a>
+                        <a href="#" @click="getOrder(order.orderId)">查看详情</a>
                       </td>
                       <td v-if="order.status=='p'">
                         <a @click="ship(order.orderId)"></a>
@@ -156,10 +156,10 @@ export default {
         }
       });
     },
-    getItem(itemId) {
+    getOrder(orderId) {
       console.log("getItem");
       this.loading = true;
-      this.$store.dispatch("GetItem", itemId).then(response => {
+      this.$store.dispatch("GetOrder", orderId).then(response => {
         this.loading = false;
         console.log("进来orderList");
         let status = response.data.code;

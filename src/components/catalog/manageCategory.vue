@@ -78,9 +78,10 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr vue-for="category in this.$route.query.categoryList">
-                      <td>{{categoty.categoryId}}</td>
-                      <td>{{categoty.name}}</td>
+                    <tr v-for="category in this.$route.query.categoryList">
+                        <tr v-for="category in this.categoryList">
+                      <td>{{category.categoryId}}</td>
+                      <td>{{category.name}}</td>
                       <td>{{category.description}}</td>
                       <td>
                         <button
@@ -133,11 +134,12 @@ export default {
   name: "orderList",
   data() {
     return {
-      categoryList: []
+    
+      categoryList: {}
     };
   },
-  mounted: function() {
-    this.categoryList = this.$route.params.categoryList;
+  created() {
+    this.categoryList = this.$route.query.categoryList;
   },
   methods: {
     getProducts(categoryId) {
@@ -151,10 +153,10 @@ export default {
 
         if (status == 200) {
           var productList = response.data.data;
-          console.log("order", orderList[1].orderId);
+    
           this.$router.push({
             // path: "/orderList",
-            path: "/manageProducts",
+            path: "/manageProduct",
             query: {
               productList: productList,
             }

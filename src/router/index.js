@@ -61,6 +61,11 @@ export default new Router({
         path: '/orderList',
         component: (resolve) => require(['../components/order/orderList.vue'], resolve)
     }
+    , 
+    {
+        path: '/editOrder',
+        component: (resolve) => require(['../components/order/editOrder.vue'], resolve)
+    }
     // {
     //     path: "/catalog",
     //     component: (resolve) => require(['../components/admin/editAccount.vue'], resolve),//实现懒加载,

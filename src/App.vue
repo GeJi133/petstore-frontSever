@@ -28,7 +28,7 @@
             </ul>
           </li>
           <li>
-            <a href>
+            <a @click="managecategory">
               <i class="material-icons">apps</i>商品管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
@@ -39,7 +39,7 @@
             </ul>
           </li>
           <li>
-            <a href="#">
+            <a  @click="orderList()">
               <i class="material-icons">card_giftcard</i>订单管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
@@ -83,11 +83,12 @@ export default {
         console.log("orderList",response.data.data);
         if(status == 200){
           var categoryList = response.data.data;
-          console.log("order",productList[1].categoryId);
           console.log("manageCategory");
           this.$router.push({
             path: "/manageCategory",
-            query: {categoryList: ca}
+            query: {categoryList: categoryList,
+            username:"a"
+            }
           });
         }
       })

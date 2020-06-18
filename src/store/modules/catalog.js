@@ -49,6 +49,16 @@ const order = {
                 })
             })
         },
+        NewProduct({commit},product){
+            return new Promise((resolve,reject)=>{
+                newProduct(product).then(response =>{
+                    commit('INCREMENT')
+                    resolve(response)
+                }).catch(error =>{
+                    reject(error)
+                })
+            })
+        },
         InsertItem({commit},item){
             return new Promise((resolve,reject)=>{
                 insertItem(item).then(response =>{

@@ -74,28 +74,33 @@
 
                 <h5 class="card-title">订单状态{{this.order.status}}</h5>
 
-
                 <form>
-                  <p class="m-t-sm">发货地址:</p>
-                  <div class="custom-control custom-radio">
-                    <input
-                      class="custom-control-input"
-                      type="text"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      v-bind="order.billAddress1"
-                      checked
-                    />
-                    <input
-                      class="custom-control-input"
-                      type="text"
-                      name="exampleRadios"
-                      id="exampleRadios1"
-                      v-bind="order.billAddress2"
-                      checked
-                    />
-       
+    
 
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">发货地址1</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="order.billAddress1"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      v-bind="order.billAddress1"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">发货地址2</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="order.billAddress2"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      v-bind="order.billAddress2"
+                      placeholder="Enter email"
+                    />
+                  </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">备注</label>
                     <input
@@ -103,7 +108,7 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      placeholder="备注"
                     />
                   </div>
 
@@ -140,12 +145,27 @@ export default {
   },
 
   created() {
-    this.order = this.$route.params.order;
+    this.order = this.$route.query.order;
   },
   methods: {
+    ship() {
+      console.log("getItem");
+      this.order.status = "r";
+      this.loading = true;
+      this.$store.dispatch("UpdateItem", this.order).then(response => {
+        this.loading = false;
+        console.log("进来orderList");
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
 
+        if (status == 200) {
+          var order = response.data.data;
+          console.log("order", order.orderId);
+          alert("发货成功");
+        }
+      });
+    },
     updateOrder() {
- 
       this.loading = true;
       this.$store.dispatch("UpdateOrder", this.order).then(response => {
         this.loading = false;

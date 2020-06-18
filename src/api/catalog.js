@@ -5,17 +5,20 @@ import Qs from 'qs'
 export function getProducts (catId) {
   console.log("这是getOrdes");
   return request({
-    url: '/catalogs/'+catId+'/products',
+    url: '/catalogs/categories/'+catId+'/products',
     method: 'get',
     headers:{'Content-Type':'application/x-www-form-urlencoded'},
   })
 }
 export function newProduct (product) {
   console.log("这是product");
+  var data = Qs.stringify(product);
+  console.log(data);
   return request({
     url: '/catalogs/products',
     method: 'post',
     headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    data:data
   })
 }
 export function getCategorys () {

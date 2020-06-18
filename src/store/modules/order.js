@@ -1,5 +1,5 @@
 import { getOrders } from '@/api/order'
-import { gerOrder } from '@/api/order'
+import { getOrder } from '@/api/order'
 
 const order = {
     state: () => ({
@@ -16,8 +16,10 @@ const order = {
                 })
             })
         },
-        GerOrder({commit},orderId){
-            return new Promise((response,reject) =>{
+        GetOrder({commit},orderId){
+            console.log("进入GetOrder");
+            return new Promise((resolve,reject) =>{
+                console.log("进入promise");
                 getOrder(orderId).then(response=>{
                     commit('INCREMENT')
                     resolve(response)

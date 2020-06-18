@@ -18,7 +18,7 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">商品列表</h5>
-              <a href="../catalog/addProduct.html" class="btn btn-primary m-b-md">添加商品</a>
+              <a @click="addProduct()" class="btn btn-primary m-b-md">添加商品</a>
               <table id="zero-conf" class="display" style="width:100%">
                 <thead>
                   <tr>
@@ -72,7 +72,30 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "orderList",
+  data() {
+    return {
+    
+      productList: {}
+    };
+  },
+  created() {
+    this.categoryList = this.$route.query.categoryList;
+  },
+  methods: {
+    addProduct() {
+      console.log("进入addproduct");
+          this.$router.push({
+            // path: "/orderList",
+            path: "/addProduct",
+            query: {
+            }
+          });
+    },
+    ship(orderId) {}
+  }
+};
 </script>
 <style>
 </style>
