@@ -49,9 +49,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">商品管理</a>
+              <a href="#">catalog</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">修改Product</li>
+            <li class="breadcrumb-item active" aria-current="page">addCategory</li>
           </ol>
         </nav>
       </div>

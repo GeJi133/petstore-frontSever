@@ -48,9 +48,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Order</a>
+              <a href="#">catalog</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">ViewOrders</li>
+            <li class="breadcrumb-item active" aria-current="page">editItem</li>
           </ol>
         </nav>
       </div>
@@ -61,27 +61,40 @@
           <div class="col-xl">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">修改商品信息</h4>
+                <h4 class="card-title">添加商品</h4>
                 <h5 class="card-title">itemid</h5>
 
                 <form>
                   <div class="form-group">
+                    <label for="exampleInputEmail1">itemId</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.itemId"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+
+                  <div class="form-group">
                     <label for="sel1">类别</label>
-                    <select class="form-control" v-model="this.selectCategory" id="sel1">
+                    <select class="form-control" v-on:change="getProducts($event)">
+                      <option
+                        v-for="category in categoryList"
+                        v-bind:value="category.categoryId"
+                      >{{category.name}}</option>
+                    </select>
+                    <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
                       <option
                         v-for="category in categoryList"
                         v-bind="category.categoryId"
                       >{{category.name}}</option>
-                    </select>
+                    </select>-->
                   </div>
                   <div class="form-group">
                     <label for="sel1">种类</label>
-                    <select
-                      class="form-control"
-                      v-model="itemForm.productId"
-                      id="sel1"
-                      @change="getProducts()"
-                    >
+                    <select class="form-control" v-model="itemForm.productId" id="sel1">
                       <option
                         v-for="product in productList"
                         v-bind="product.productId"
@@ -97,7 +110,7 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.attribute1" 
+                      placeholder="Enter email"
                     />
                   </div>
                   <div class="form-group">
@@ -108,7 +121,7 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.attribute2"
+                      placeholder="Enter email"
                     />
                   </div>
                   <div class="form-group">
@@ -119,18 +132,18 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.attribute3" 
+                      placeholder="Enter email"
                     />
                   </div>
                   <div class="form-group">
                     <label for="exampleInputEmail1">数量</label>
                     <input
                       type="text"
-                      v-model="itemForm.qntity"
+                      v-model="itemForm.quantity"
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.qntity"
+                      placeholder="Enter email"
                     />
                   </div>
                   <div class="form-group">
@@ -141,7 +154,7 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.listPrice"
+                      placeholder="Enter email"
                     />
                   </div>
                   <div class="form-group">
@@ -152,12 +165,11 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      v-bind="this.item.unitCost"
+                      placeholder="Enter email"
                     />
                   </div>
-
                 </form>
-                <button @click="newItem()" class="btn btn-primary">提交修改</button>
+                <button @click="updateItem()" class="btn btn-primary">提交修改</button>
               </div>
             </div>
           </div>
@@ -184,30 +196,13 @@ export default {
   name: "orderList",
   data() {
     return {
-      item:{},
-      selectCategory: "",
-      itemForm: {
-        itemId: "",
-        productId: "",
-        listPrice: "",
-        unitCost: "",
-        supplierId: "",
-        status: "",
-        attribute1: "",
-        attribute2: "",
-        attribute2: "",
-        attribute2: "",
-        attribute2: "",
-        productId: "",
-        quantity
-      },
-      categoryList: {},
-      productList: {}
+      itemForm: {},
+
     };
   },
 
   created() {
-    this.item= this.$route.params.item
+     this.itemForm = this.$route.query.item;
     this.loading = true;
     this.$store.dispatch("GetCategorys").then(response => {
       this.loading = false;
@@ -216,17 +211,16 @@ export default {
       console.log("orderList", response.data.data);
       if (status == 200) {
         this.categoryList = response.data.data;
-        console.log("order", productList[1].categoryId);
         console.log("manageCategory");
       }
     });
   },
   methods: {
-    viewOrder(orderId) {},
-    ship(orderId) {},
-    getProducts() {
-      var categoryId = this.selectCategory;
-      console.log("getProducts");
+    getProducts(event) {
+      console.log("getPrssoducts", event.target.value);
+      var categoryId = event.target.value;
+
+      console.log("categoryId", categoryId);
       this.loading = true;
       this.$store.dispatch("GetProducts", categoryId).then(response => {
         this.loading = false;
@@ -236,19 +230,18 @@ export default {
 
         if (status == 200) {
           this.productList = response.data.data;
-          console.log("order", orderList[1].orderId);
         }
       });
     },
-    newItem(){
+    updateItem() {
       console.log("newItem");
       this.loading = true;
-      this.$store.dispatch("NewItem", this.itemForm).then(response => {
+      this.$store.dispatch("UpdateItem", this.itemForm).then(response => {
         this.loading = false;
         let status = response.data.code;
         if (status == 200) {
           alert("插入成功");
-        }else{
+        } else {
           alert("插入失败");
         }
       });

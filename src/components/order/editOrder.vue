@@ -48,9 +48,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">home</a>
+              <a href="#">Order</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">home</li>
+            <li class="breadcrumb-item active" aria-current="page">editOrder</li>
           </ol>
         </nav>
       </div>

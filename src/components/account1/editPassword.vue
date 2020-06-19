@@ -48,9 +48,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Order</a>
+              <a href="#">Account</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">ViewOrders</li>
+            <li class="breadcrumb-item active" aria-current="page">editPasword</li>
           </ol>
         </nav>
       </div>

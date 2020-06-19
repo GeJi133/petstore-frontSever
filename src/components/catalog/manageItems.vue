@@ -48,9 +48,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Order</a>
+              <a href="#">catalog</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">ViewOrders</li>
+            <li class="breadcrumb-item active" aria-current="page">manageItem</li>
           </ol>
         </nav>
       </div>
@@ -134,7 +134,28 @@ export default {
         query: {}
       });
     },
-    deleteItem(itemId) {}
+    deleteItem(itemId) {},
+    updateItem(itemId) {
+      console.log("updateItem");
+      this.loading = true;
+      this.$store.dispatch("GetItem",itemId).then(response => {
+        this.loading = false;
+        let status = response.data.code;
+        console.log("item", response.data.data);
+
+        if (status == 200) {
+          var item = response.data.data;
+    
+          this.$router.push({
+            // path: "/orderList",
+            path: "/editItem",
+            query: {
+              item: item,
+            }
+          });
+        }
+      });
+    },
   }
 };
 </script>

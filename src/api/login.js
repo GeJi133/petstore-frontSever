@@ -7,10 +7,12 @@ export function login (username, password) {
 
  var data = Qs.stringify({"username":username,"password":password});
  console.log(data);
+ 
   return request({
     url: '/accounts/login',
     method: 'post',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'},
     data: data
   })
 }
@@ -20,7 +22,8 @@ export function getUser (username) {
   return request({
     url: '/accounts/username/'+username,
     method: 'get',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    headers:{
+      'Content-Type':'application/x-www-form-urlencoded'},
   })
 }
 
@@ -31,7 +34,9 @@ export function updateUser (user) {
   return request({
     url: '/accounts/username/'+username,
     method: 'put',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    headers:{
+      'token':localStorage.getItem('token'),
+      'Content-Type':'application/x-www-form-urlencoded'},
     data:data
   })
 }

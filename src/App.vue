@@ -127,10 +127,9 @@ export default {
     },
     editAccount() {
       console.log("viewAccount");
-      var user=this.$session.get("user");
       this.$router.push({
         path: "/editUser",
-        query: {user:user}
+        query: {}
       });
     }
   }

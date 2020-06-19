@@ -5,6 +5,7 @@ import { insertItem } from '@/api/catalog'
 import { deleteItem } from '@/api/catalog'
 import { getCategorys } from '@/api/catalog'
 import { newProduct } from '@/api/catalog'
+import { getItem } from '@/api/catalog'
 
 const order = {
 

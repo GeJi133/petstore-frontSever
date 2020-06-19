@@ -52,7 +52,7 @@ export function getItems(proId) {
 export function getItem(itemId) {
   console.log("这是getOrder");
   return request({
-    url: '/catalogs/items' + itemId,
+    url: '/catalogs/items/' + itemId,
     method: 'get',
     headers: {
       'token': localStorage.getItem('token'),
