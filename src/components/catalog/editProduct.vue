@@ -85,7 +85,7 @@
                     </select>
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">商品描述</label>
+                    <label for="exampleInputEmail1">{{product.description}}</label>
                     <input
                       type="text"
                       class="form-control"

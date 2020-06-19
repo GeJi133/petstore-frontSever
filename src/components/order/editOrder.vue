@@ -75,8 +75,6 @@
                 <h5 class="card-title">订单状态{{this.order.status}}</h5>
 
                 <form>
-    
-
                   <div class="form-group">
                     <label for="exampleInputEmail1">发货地址1</label>
                     <input

@@ -13,11 +13,19 @@ export default new Router({
       },
       {
         path: '/main',
-        component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve)//实现懒加载
+        component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve),//实现懒加载
+        meta: {
+            requireAuth: true,  // 判断是否需要登录
+          },
       },
     {
-        path: "/admin",
-        component: (resolve) => require(['../components/admin/editAccount.vue'], resolve)//实现懒加载
+        path: "/editUser",
+        component: (resolve) => require(['../components/account1/editAccount.vue'], resolve)//实现懒加载
+
+    },
+    {
+        path: "/editPassword",
+        component: (resolve) => require(['../components/account1/editPassword.vue'], resolve)//实现懒加载
 
     },
     {
@@ -46,7 +54,10 @@ export default new Router({
     }, 
     {
         path: '/manageCategory',
-        component: (resolve) => require(['../components/catalog/manageCategory.vue'], resolve)
+        component: (resolve) => require(['../components/catalog/manageCategory.vue'], resolve),
+        meta: {
+            requireAuth: true,  // 判断是否需要登录
+          }
     }, 
     {
         path: '/manageProduct',

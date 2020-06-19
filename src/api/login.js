@@ -15,4 +15,25 @@ export function login (username, password) {
   })
 }
 
+export function getUser (username) {
+  console.log("这是login");
+  return request({
+    url: '/accounts/username/'+username,
+    method: 'get',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+  })
+}
+
+export function updateUser (user) {
+  var data = Qs.stringify(user);
+  console.log(data);
+  console.log("这是login");
+  return request({
+    url: '/accounts/username/'+username,
+    method: 'put',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    data:data
+  })
+}
+
 

@@ -9,6 +9,10 @@ import catalog from './modules/catalog'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  state: {
+    isLogin: false
+  },
+
     modules: {
         user,
         order,

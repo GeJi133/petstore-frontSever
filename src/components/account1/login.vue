@@ -50,7 +50,6 @@
 </template>
 
 <script>
-
 export default {
     name: "login",
     data(){
@@ -88,6 +87,9 @@ export default {
                         console.log('code',status);
                         if(status == 200){
                           if(response.data.data){
+                            var user=response.data.data;
+                            // sessionStorage.setItem("user",JSON.parse(user));
+                            // console.log("session",sessionStorage.getItem("user"));
                             this.$router.push({
                                 path: "/main",
                                 query: {}
@@ -114,7 +116,6 @@ export default {
     }
     }
 }
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

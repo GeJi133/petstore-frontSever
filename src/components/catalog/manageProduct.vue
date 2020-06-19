@@ -1,17 +1,61 @@
 <template>
   <div class="page-container">
-    <!-- 页面信息 -->
-    <div class="page-info">
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Product</a>
+    <div class="page-header">
+      <nav class="navbar navbar-expand">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <ul class="navbar-nav">
+          <li class="nav-item small-screens-sidebar-link">
+            <a href="#" class="nav-link">
+              <i class="material-icons-outlined">menu</i>
+            </a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page">manageProduct</li>
-        </ol>
+          <li class="nav-item nav-profile dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <span>username</span>
+              <i class="material-icons dropdown-icon">keyboard_arrow_down</i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="#">
+                LogOut
+                <span class="badge badge-pill badge-info float-right">2</span>
+              </a>
+            </div>
+          </li>
+        </ul>
       </nav>
     </div>
-    <!-- 页面内容 -->
+    <div class="page-content">
+      <!-- 页面信息 -->
+      <div class="page-info">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Order</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">ViewOrders</li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- 页面内容 -->
     <div class="main-wrapper">
       <div class="row">
         <div class="col">
@@ -22,9 +66,7 @@
               <table id="zero-conf" class="display" style="width:100%">
                 <thead>
                   <tr>
-                    <th>
-                      <a href="../catalog/editProduct.html"></a>商品id
-                    </th>
+                    <th>商品id</th>
                     <th>商品类别</th>
                     <th>商品名</th>
                     <th>商品描述</th>
@@ -32,31 +74,17 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>productId</td>
-                    <td>category</td>
-                    <td>name</td>
-                    <td>descn</td>
+                  <tr v-for="product in productList">
+                    <td @click="getItems(product.productId)">{{product.productId}}</td>
+                    <td>{{product.categoryId}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.descn}}</td>
                     <td>
-                      <button type="button" class="btn btn-outline-info">删除</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>productId</td>
-                    <td>category</td>
-                    <td>name</td>
-                    <td>descn</td>
-                    <td>
-                      <button type="button" class="btn btn-outline-info">删除</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>productId</td>
-                    <td>category</td>
-                    <td>name</td>
-                    <td>descn</td>
-                    <td>
-                      <button type="button" class="btn btn-outline-info">删除</button>
+                      <button
+                        @click="deleteProduct(product.productId)"
+                        type="button"
+                        class="btn btn-outline-info"
+                      >删除</button>
                     </td>
                   </tr>
                 </tbody>
@@ -66,8 +94,20 @@
         </div>
       </div>
     </div>
+      <!-- 页面内容 -->
+    </div>
 
-    <!-- 页面内容 -->
+    <!-- 一下是buttom部分 -->
+    <div class="page-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="footer-text">
+            2019 ©
+            <a href="http://www.bootstrapmb.com/">stacks</a>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -76,24 +116,43 @@ export default {
   name: "orderList",
   data() {
     return {
-    
       productList: {}
     };
   },
   created() {
-    this.categoryList = this.$route.query.categoryList;
+    this.productList = this.$route.query.productList;
   },
   methods: {
-    addProduct() {
-      console.log("进入addproduct");
+    getItems(productId) {
+      console.log("getItems");
+      this.loading = true;
+      this.$store.dispatch("GetItems", productId).then(response => {
+        this.loading = false;
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+
+        if (status == 200) {
+          var itemList = response.data.data;
+
           this.$router.push({
             // path: "/orderList",
-            path: "/addProduct",
+            path: "/manageItems",
             query: {
+              itemList: itemList
             }
           });
+        }
+      });
     },
-    ship(orderId) {}
+    addProduct() {
+      console.log("进入addproduct");
+      this.$router.push({
+        // path: "/orderList",
+        path: "/addProduct",
+        query: {}
+      });
+    },
+    deleteProduct(productId) {}
   }
 };
 </script>

@@ -92,20 +92,7 @@
 
                       </td>
                     </tr>
-                    <tr>
-                      <td>name</td>
-                      <td>descn</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-info">删除</button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>name</td>
-                      <td>descn</td>
-                      <td>
-                        <button type="button" class="btn btn-outline-info">删除</button>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>

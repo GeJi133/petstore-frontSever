@@ -15,15 +15,15 @@
       <div class="page-sidebar-inner slimscroll">
         <ul class="accordion-menu">
        
-          <p id="checkInfo"></p>
+          <p id="checkInfo" ></p>
           <li>
-            <a href="#">
+            <a @click="editAccount()">
               <i class="material-icons">text_format</i>用户管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
             <ul class="sub-menu">
               <li>
-                <a @click="viewAccount">信息查看</a>
+                <a >信息查看</a>
               </li>
             </ul>
           </li>
@@ -125,11 +125,12 @@ export default {
         }
       })      
     },
-    viewAccount() {
+    editAccount() {
       console.log("viewAccount");
+      var user=this.$session.get("user");
       this.$router.push({
-        path: "/viewAccount",
-        query: {}
+        path: "/editUser",
+        query: {user:user}
       });
     }
   }
