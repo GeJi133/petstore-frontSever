@@ -17,7 +17,7 @@ const router=new Router({
       },
       {
         path: '/main',
-        component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve),//实现懒加载
+        component: (resolve) => require(['../components/common/main.vue'], resolve),//实现懒加载
       },
     {
         path: "/editUser",

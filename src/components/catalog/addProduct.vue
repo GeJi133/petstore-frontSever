@@ -63,8 +63,21 @@
               <div class="card-body">
                 <h4 class="card-title">修改商品</h4>
                 <h5 class="card-title">productid</h5>
-              
+
                 <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">商品Id</label>
+                    <input
+                    
+                      type="text"
+                      v-model="productForm.productId"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+
                   <div class="form-group">
                     <label for="exampleInputEmail1">商品名</label>
                     <input
@@ -77,6 +90,7 @@
                       placeholder="Enter email"
                     />
                   </div>
+
                   <div class="form-group">
                     <label for="sel1">类别</label>
                     <select class="form-control" v-model="productForm.categoryId" id="sel1">
@@ -109,8 +123,7 @@
                     />
                   </div>
                 </form>
-                 <button @click="newProduct()" class="btn btn-primary">提交修改</button>
-
+                <button @click="newProduct()" class="btn btn-primary">提交修改</button>
               </div>
             </div>
           </div>
@@ -137,32 +150,27 @@ export default {
   name: "orderList",
   data() {
     return {
-      productForm: {
-        productId: "",
-        categoryId:"",
-        description:""
-      },
+      productForm: {},
       categoryList: {},
       productList: {}
     };
   },
 
- 
   methods: {
-     idcreated() {
-    this.loading = true;
-    this.$store.dispatch("GetCategorys").then(response => {
-      this.loading = false;
-      console.log("进来categoryList");
-      let status = response.data.code;
-      console.log("orderList", response.data.data);
-      if (status == 200) {
-        this.categoryList = response.data.data;
-        console.log("order", productList[1].categoryId);
-        console.log("manageCategory");
-      }
-    });
-  },
+    idcreated() {
+      this.loading = true;
+      this.$store.dispatch("GetCategorys").then(response => {
+        this.loading = false;
+        console.log("进来categoryList");
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+        if (status == 200) {
+          this.categoryList = response.data.data;
+          console.log("order", productList[1].categoryId);
+          console.log("manageCategory");
+        }
+      });
+    },
     viewOrder(orderId) {},
     ship(orderId) {},
     getProducts() {
