@@ -108,9 +108,9 @@
                       placeholder="Enter email"
                     />
                   </div>
-
-                  <button @click="newProduct()" class="btn btn-primary">提交修改</button>
                 </form>
+                 <button @click="newProduct()" class="btn btn-primary">提交修改</button>
+
               </div>
             </div>
           </div>
@@ -177,7 +177,6 @@ export default {
 
         if (status == 200) {
           this.productList = response.data.data;
-
         }
       });
     },

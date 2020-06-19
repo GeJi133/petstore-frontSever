@@ -4,7 +4,7 @@ import Router from 'vue-router'
 // import main from '@/components/views/account/main'
 Vue.use(Router)
 
-export default new Router({
+const router=new Router({
 
   routes: [
     {
@@ -12,11 +12,12 @@ export default new Router({
         component: (resolve) => require(['../components/account1/login.vue'], resolve)//实现懒加载
       },
       {
+        path: '/login',
+        component: (resolve) => require(['../components/account1/login.vue'], resolve)//实现懒加载
+      },
+      {
         path: '/main',
         component: (resolve) => require(['../components/catalog/editProduct.vue'], resolve),//实现懒加载
-        meta: {
-            requireAuth: true,  // 判断是否需要登录
-          },
       },
     {
         path: "/editUser",
@@ -86,3 +87,21 @@ export default new Router({
     // },
 ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (to.path === '/login') {
+      next();
+    } else {
+      let token = localStorage.getItem('token');
+   
+      if (token === 'null' || token === '') {
+        next('/login');
+      } else {
+        next();
+      }
+    }
+  });
+
+  export default router
+
+

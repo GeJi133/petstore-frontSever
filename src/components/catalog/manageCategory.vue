@@ -63,11 +63,7 @@
               <div class="card-body">
                 <h5 class="card-title">商品种类</h5>
                 <!-- <a href="../catalog/addCategory.html" class="btn btn-primary m-b-md">添加商品种类</a> -->
-                <button
-                          @click="getProducts('BIRDS')"
-                          type="button"
-                          class="btn btn-outline-info"
-                        >查看</button>
+
                 <table id="zero-conf" class="display" style="width:100%">
                   <thead>
                     <tr>

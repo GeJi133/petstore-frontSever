@@ -213,12 +213,12 @@ export default {
   },
     beforeMount() {
       console.log('beforeMonut');
-    // var user = sessionStorage.getItem('user');
-    // console.log('user',user);
-    // this.user = JSON.parse(user);
+    var user = sessionStorage.getItem('user');
+    console.log('user',user);
+    this.user = JSON.parse(user);
   },
    beforeUpdate() {
-    // sessionStorage.setItem("user",this.user);
+    sessionStorage.setItem("user",this.user);
   },
   methods: {
     updateUser(){
