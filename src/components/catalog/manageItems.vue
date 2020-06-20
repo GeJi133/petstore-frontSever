@@ -82,7 +82,7 @@
                       </td>
                       <td>{{productId}}</td>
                       <td>{{item.listPrice}}</td>
-                      <td>{{item.status}}</td>
+                      <td>{{item.supplierId}}</td>
                       <td>{{item.quantity}}</td>
                       <td>
                         <button

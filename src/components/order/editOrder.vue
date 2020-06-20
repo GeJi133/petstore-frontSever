@@ -29,7 +29,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span>username</span>
+              <span>后台管理</span>
               <i class="material-icons dropdown-icon">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -42,83 +42,81 @@
         </ul>
       </nav>
     </div>
+
+
     <div class="page-content">
-      <!-- 页面信息 -->
-      <div class="page-info">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-              <a href="#">Order</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">editOrder</li>
-          </ol>
-        </nav>
-      </div>
-      <!-- 页面内容 -->
-      <div class="main-wrapper">
-        <div class="row">
-          <div class="col-xl">
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title">修改订单信息</h4>
-                <h5 class="card-title">orderId{{this.order.orderId}}</h5>
-                <h5 class="card-title">卖家姓名{{this.order.username}}</h5>
+                    <!-- 页面信息 -->
+                    <div class="page-info">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
 
-                <h5 class="card-title">收获地址{{this.order.billAddress1}}</h5>
+                                <li class="breadcrumb-item"><a href="#">home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">home</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <!-- 页面内容 -->
+                    <div class="main-wrapper">
+                        <div class="row">
+                            <div class="col-xl">
+                                <div class="card">                                  
+                                    <!-- <img src="/images/card_1.jpg" class="img" alt="Placeholder"> -->
+                                    <div class="card-body">
+                                        <h5 class="card-title">订单详情</h5>
+                                        
+                                        <table class="table table-borderless">
+                                            
+                                            <tbody>
+                                               
+                                             
+                                                <tr>
+                                                    <th scope="row">订单号</th>
+                                                    <td>{{order.orderId}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">卖家姓名</th>
+                                                    <td>{{order.username}}</td>
+                                                </tr>
 
-                <h5 class="card-title">下单时间{{this.order.OrderDate}}</h5>
+                                                <tr>
+                                                    <th scope="row">收获地址</th>
+                                                    <td>{{order.billAddress1}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">下单时间</th>
+                                                    <td>{{order.orderDate}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">总价</th>
+                                                    <td>{{order.totalPrice}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">付款方式</th>
+                                                    <td>{{order.cardType}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">订单状态</th>
+                                                    <td>{{order.status}}</td>
+                                                </tr>
+                                            
+                                                        
+                                            </tbody>
+                                        </table>   
+                                    </div>
+                                </div>
+                            </div>                               
+                        </div>
+                   
+                            
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 页面内容 -->
 
-                <h5 class="card-title">总价{{this.order.totalPrice}}</h5>
 
-                <h5 class="card-title">付款方式{{this.order.cardType}}</h5>
 
-                <h5 class="card-title">订单状态{{this.order.status}}</h5>
 
-                <form>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">发货地址1</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="order.billAddress1"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      v-bind="order.billAddress1"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">发货地址2</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="order.billAddress2"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      v-bind="order.billAddress2"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">备注</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="备注"
-                    />
-                  </div>
-
-                  <button @click="updateOrder()" class="btn btn-primary">提交修改</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 页面内容 -->
-    </div>
 
     <!-- 一下是buttom部分 -->
     <div class="page-footer">

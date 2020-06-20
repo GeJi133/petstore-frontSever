@@ -29,7 +29,7 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <span>username</span>
+              <span></span>
               <i class="material-icons dropdown-icon">keyboard_arrow_down</i>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -121,7 +121,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import { mapMutations } from "vuex";
 export default {
   name: "login",
   data() {
@@ -133,7 +133,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["ChangeLogin","ChangeUsername"]),
+    ...mapMutations(["ChangeLogin", "ChangeUsername"]),
     main() {
       console.log("进入main");
       this.$router.push({
@@ -141,6 +141,7 @@ export default {
         query: { message: "response.data.message" }
       });
     },
+
     handleLogin() {
       console.log("调用login", this.$store);
       this.$store.dispatch("getOrder");
@@ -155,22 +156,33 @@ export default {
             this.loading = false;
             console.log("进来了", response);
             let status = response.data.code;
-            let _this=this;
+            let _this = this;
             console.log("code", status);
             if (status == 200) {
               if (response.data.data) {
-             console.log('token',response.data.data);
-                    var username=_this.loginForm.username;
-                    
-                    console.log("kjusernaem",username);
-                  _this.ChangeLogin(response.data.data);
-                  _this.ChangeUsername(username);
-                  console.log("kjusernaessm",localStorage.getItem("username"));
-                  console.log("kjusernaem",username);
-                this.$router.push({
-                  
-                  path: "/main",
-                  query: {}
+                console.log("token", response.data.data);
+                var username = _this.loginForm.username;
+
+                console.log("kjusernaem", username);
+                _this.ChangeLogin(response.data.data);
+                _this.ChangeUsername(username);
+                console.log("kjusernaessm", localStorage.getItem("username"));
+                console.log("kjusernaem", username);
+
+                this.loading = true;
+                this.$store.dispatch("GetCategorys").then(response => {
+                  this.loading = false;
+                  console.log("进来categoryList");
+                  let status = response.data.code;
+                  console.log("orderList", response.data.data);
+                  if (status == 200) {
+                    var categoryList = response.data.data;
+                    console.log("manageCategory");
+                    this.$router.push({
+                      path: "/manageCategory",
+                      query: { categoryList: categoryList, username: "a" }
+                    });
+                  }
                 });
               } else {
                 this.$router.push({
