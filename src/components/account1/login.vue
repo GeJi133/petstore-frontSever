@@ -179,6 +179,7 @@ export default {
                 });
               }
             } else {
+              alert(response.data.message);
               this.$router.push({
                 path: "/login",
                 query: {}

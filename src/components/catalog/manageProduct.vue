@@ -132,7 +132,7 @@ export default {
         this.loading = false;
         let status = response.data.code;
         console.log("orderList", response.data.data);
-
+console.log("status",status);
         if (status == 200) {
           var itemList = response.data.data;
 
@@ -140,7 +140,19 @@ export default {
             // path: "/orderList",
             path: "/manageItems",
             query: {
-              itemList: itemList
+              itemList: itemList,
+              productId:productId
+            }
+          });
+        }else if(status == 10006){
+          var itemList = {};
+
+          this.$router.push({
+            // path: "/orderList",
+            path: "/manageItems",
+            query: {
+              itemList: itemList,
+              productId:productId
             }
           });
         }
@@ -162,8 +174,6 @@ export default {
         let status = response.data.code;
         console.log("orderList", response.data.data);
         console.log("status",status);
-
-
         if (status == 204) {
           console.log("getProducts");
           this.loading = true;
@@ -175,7 +185,6 @@ export default {
               let status = response.data.code;
               console.log("orderList", response.data.data);
               console.log("status",status);
-
               if (status == 200) {
                 this.productList = response.data.data;
                 console.log("productList");

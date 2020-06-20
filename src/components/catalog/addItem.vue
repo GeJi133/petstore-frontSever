@@ -260,7 +260,7 @@ export default {
         if (status == 204) {
           alert("插入成功");
         } else {
-          alert("插入失败");
+          alert(response.data.message);
         }
       });
     }

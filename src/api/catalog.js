@@ -84,7 +84,7 @@ export function insertItem(item) {
 }
 
 export function deleteItem(itemId) {
-data={"itemId":itemId}
+var data={"itemId":itemId}
   return request({
     url: '/catalogs/items',
     method: 'delete',

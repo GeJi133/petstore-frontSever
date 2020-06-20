@@ -80,7 +80,7 @@
                       <td>
                         <a href="#" @click="viewItem(item.itemId)">{{item.itemId}}</a>
                       </td>
-                      <td>{{item.productId}}</td>
+                      <td>{{productId}}</td>
                       <td>{{item.listPrice}}</td>
                       <td>{{item.status}}</td>
                       <td>{{item.quantity}}</td>
@@ -133,7 +133,8 @@ export default {
   },
   created() {
     this.itemList = this.$route.query.itemList;
-    this.productId=this.itemList[0].getproductId
+    this.productId=this.$route.query.productId;
+    console.log("productIdll",this.productId);
   },
   methods: {
     addItem() {
@@ -188,6 +189,7 @@ export default {
         deleteItem(itemId) {
       console.log("delete");
       this.loading = true;
+      console.log("itemID",itemId);
       this.$store.dispatch("DeleteItem", itemId).then(response => {
         this.loading = false;
         let status = response.data.code;
@@ -196,10 +198,10 @@ export default {
 
 
         if (status == 204) {
-          console.log("getProducts");
+          console.log("getItems",this.productId);
           this.loading = true;
           this.$store
-            .dispatch("GetItem", this.productId)
+            .dispatch("GetItems", this.productId)
             .then(response => {
               this.loading = false;
               console.log("进来orderList");
@@ -208,7 +210,7 @@ export default {
               console.log("status",status);
 
               if (status == 200) {
-                this.itemId = response.data.data;
+                this.itemList = response.data.data;
                 console.log("productList");
               }
             });
