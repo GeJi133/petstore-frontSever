@@ -63,10 +63,13 @@ export function getItem(itemId) {
 }
 
 export function updateItem(item) {
+  console.log("item",item);
   return request({
     url: '/catalogs/items',
     method: 'put',
-    headers: { 'Content-Type': 'application/JSON' },
+    headers: { 
+      'token': localStorage.getItem('token'),
+      'Content-Type': 'application/JSON' },
     data: item
   })
 }

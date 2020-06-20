@@ -48,9 +48,9 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">catalog</a>
+              <a href="#">Account</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">addItem</li>
+            <li class="breadcrumb-item active" aria-current="page">editPassword</li>
           </ol>
         </nav>
       </div>
@@ -61,116 +61,36 @@
           <div class="col-xl">
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">添加商品</h4>
-                <h5 class="card-title">itemid</h5>
-
+                <h5 class="card-title">修改密码</h5>
+             
                 <form>
+                  
                   <div class="form-group">
-                    <label for="exampleInputEmail1" >itemId</label>
+                    <label for="exampleInputPassword1">密码</label>
                     <input
-                      type="text"
-                      v-model="itemForm.itemId"
+                      type="password"
                       class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
-
-                  <div class="form-group">
-                    <label for="sel1">类别</label>
-                    <select class="form-control"  v-on:change="getProducts($event)">
-                      <option
-                        v-for="category in categoryList"
-                        v-bind:value="category.categoryId"
-                      >{{category.categoryId}}</option>
-                    </select>
-                
-                    <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
-                      <option
-                        v-for="category in categoryList"
-                        v-bind="category.categoryId"
-                      >{{category.name}}</option>
-                    </select>-->
-                  </div>
-                  <div class="form-group">
-                    <label for="sel1">种类</label>
-                    <select class="form-control" v-model="itemForm.productId" id="sel1">
-                      <option
-                        v-for="product in productList"
-                        v-bind="product.productId"
-                      >{{product.productId}}</option>
-                    </select>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">商品特性</label>
-                    <input
-                      type="text"
-                      v-model="itemForm.attribute1"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      id="exampleInputPassword1"
+                      v-model="userForm.password"
+                      placeholder="Password"
                     />
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">商品特性2</label>
+                    <label for="exampleInputPassword1">重复密码</label>
                     <input
-                      type="text"
-                      v-model="itemForm.attribute2"
+                      type="password"
                       class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      id="exampleInputPassword1"
+                      v-model="userForm.repeatPassword"
+                      placeholder="Password"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">商品特性3</label>
-                    <input
-                      type="text"
-                      v-model="itemForm.attribute3"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
+                  <div class="custom-control custom-checkbox form-group">
+                    <input type="checkbox" class="custom-control-input" id="exampleCheck1" />
                   </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">数量</label>
-                    <input
-                      type="text"
-                      v-model="itemForm.quantity"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">最低价格</label>
-                    <input
-                      type="text"
-                      v-model="itemForm.listPrice"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">价格</label>
-                    <input
-                      type="text"
-                      v-model="itemForm.unitCost"
-                      class="form-control"
-                      id="exampleInputEmail1"
-                      aria-describedby="emailHelp"
-                      placeholder="Enter email"
-                    />
-                  </div>
+              
                 </form>
-                <button @click="newItem()" class="btn btn-primary">提交修改</button>
+                <button @click="updateUser" class="btn btn-primary" type="submit">Submit form</button>
               </div>
             </div>
           </div>
@@ -198,29 +118,42 @@ export default {
   name: "First",
   data() {
     return {
-      userForm: {},
-      user
+      userForm: {
+      }
     };
   },
-  created(){
-      this.userForm=this.$route.query.user;
-      console.log('beforeMonut');
+  created() {
+    this.userForm = this.$route.query.user;
+  },
+  beforeMount() {
+    console.log("beforeMonut");
+    var user = sessionStorage.getItem("user");
+    console.log("user", user);
+    this.user = JSON.parse(user);
+  },
+  beforeUpdate() {
+    sessionStorage.setItem("user", this.user);
   },
   methods: {
-    updateUser(){
-      var _this=this;
-      console.log("newItem",_this.userForm);
+    updateUser() {
+      console.log("pass",this.userForm.password,this.userForm.repeadPassword)
+      if(this.userForm.password==this.userForm.repeatPassword){
+      var _this = this;
+      console.log("newItem", _this.userForm);
       this.loading = true;
-      console.log("userForm")
-      this.$store.dispatch("UpdateUser",_this.userForm).then(response => {
+      console.log("userForm");
+      this.$store.dispatch("UpdateUser", _this.userForm).then(response => {
         this.loading = false;
         let status = response.data.code;
         if (status == 204) {
           alert("修改成功");
-        }else{
-          alert("修改失败");
+        } else {
+          alert(response.data.message);
         }
       });
+    }else{
+      alert('两次密码输入不一致');
+    }
     }
   }
 };

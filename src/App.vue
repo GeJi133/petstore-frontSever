@@ -161,7 +161,7 @@ export default {
             var user = response.data.data;
             this.$router.push({
               // path: "/orderList",
-              path: "/editPasword",
+              path: "/editPassword",
               query: {
                 user: user
               }

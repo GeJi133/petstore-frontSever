@@ -232,7 +232,7 @@ export default {
         if (status == 204) {
           alert("修改成功");
         }else{
-          alert("修改失败");
+          alert(response.data.message);
         }
       });
     }

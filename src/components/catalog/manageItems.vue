@@ -154,6 +154,7 @@ export default {
 
         if (status == 200) {
           var item = response.data.data;
+          item.productId=this.productId
 
           this.$router.push({
             // path: "/orderList",

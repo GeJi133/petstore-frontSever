@@ -76,29 +76,17 @@
                       placeholder="Enter email"
                     />
                   </div>
-                  <div class="form-group">
-                    <label for="sel1">类别</label>
-                    <select class="form-control" @click="getCategory()" v-on:change="getProducts($event)">
-                      <option
-                        v-for="category in categoryList"
-                        v-bind:value="category.categoryId"
-                      >{{category.categoryId}}</option>
-                    </select>
-                    <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
-                      <option
-                        v-for="category in categoryList"
-                        v-bind="category.categoryId"
-                      >{{category.name}}</option>
-                    </select>-->
-                  </div>
+
                   <div class="form-group">
                     <label for="sel1">种类</label>
-                    <select class="form-control" v-model="itemForm.productId" id="sel1">
-                      <option
-                        v-for="product in productList"
-                        v-bind="product.productId"
-                      >{{product.name}}</option>
-                    </select>
+                    <input
+                      type="text"
+                      v-model="itemForm.productId"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
                   </div>
 
                   <div class="form-group">
@@ -195,13 +183,12 @@ export default {
   name: "orderList",
   data() {
     return {
-      itemForm: {},
-
+      itemForm: {}
     };
   },
 
   created() {
-     this.itemForm = this.$route.query.item;
+    this.itemForm = this.$route.query.item;
     this.loading = true;
     this.$store.dispatch("GetCategorys").then(response => {
       this.loading = false;
@@ -215,17 +202,17 @@ export default {
     });
   },
   methods: {
-        getCategory(){
-          this.$store.dispatch("GetCategorys").then(response => {
-      this.loading = false;
-      console.log("进来categoryList");
-      let status = response.data.code;
-      console.log("orderList", response.data.data);
-      if (status == 200) {
-        this.categoryList = response.data.data;
-        console.log("manageCategory");
-      }
-    });
+    getCategory() {
+      this.$store.dispatch("GetCategorys").then(response => {
+        this.loading = false;
+        console.log("进来categoryList");
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+        if (status == 200) {
+          this.categoryList = response.data.data;
+          console.log("manageCategory");
+        }
+      });
     },
     getProducts(event) {
       console.log("getPrssoducts", event.target.value);
@@ -250,7 +237,7 @@ export default {
       this.$store.dispatch("UpdateItem", this.itemForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        if (status == 204) {
           alert("插入成功");
         } else {
           alert("插入失败");

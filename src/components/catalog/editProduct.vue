@@ -185,7 +185,7 @@ export default {
       this.$store.dispatch("newProduct", this.productForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        if (status == 204) {
           alert("插入成功");
         } else {
           alert("插入失败");
