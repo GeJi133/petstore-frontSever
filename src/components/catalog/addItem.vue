@@ -66,7 +66,7 @@
 
                 <form>
                   <div class="form-group">
-                    <label for="exampleInputEmail1">itemId</label>
+                    <label for="exampleInputEmail1" >itemId</label>
                     <input
                       type="text"
                       v-model="itemForm.itemId"
@@ -79,12 +79,13 @@
 
                   <div class="form-group">
                     <label for="sel1">类别</label>
-                    <select class="form-control" v-on:change="getProducts($event)">
+                    <select class="form-control"  v-on:change="getProducts($event)">
                       <option
                         v-for="category in categoryList"
                         v-bind:value="category.categoryId"
-                      >{{category.name}}</option>
+                      >{{category.categoryId}}</option>
                     </select>
+                
                     <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
                       <option
                         v-for="category in categoryList"
@@ -98,7 +99,7 @@
                       <option
                         v-for="product in productList"
                         v-bind="product.productId"
-                      >{{product.name}}</option>
+                      >{{product.productId}}</option>
                     </select>
                   </div>
 
@@ -232,6 +233,7 @@ export default {
     });
   },
   methods: {
+
     getProducts(event) {
       console.log("getPrssoducts", event.target.value);
       var categoryId = event.target.value;
@@ -255,7 +257,7 @@ export default {
       this.$store.dispatch("NewItem", this.itemForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        if (status == 204) {
           alert("插入成功");
         } else {
           alert("插入失败");

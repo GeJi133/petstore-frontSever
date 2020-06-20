@@ -133,7 +133,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["ChangeLogin"]),
+    ...mapMutations(["ChangeLogin","ChangeUsername"]),
     main() {
       console.log("进入main");
       this.$router.push({
@@ -160,8 +160,13 @@ export default {
             if (status == 200) {
               if (response.data.data) {
              console.log('token',response.data.data);
-      
+                    var username=_this.loginForm.username;
+                    
+                    console.log("kjusernaem",username);
                   _this.ChangeLogin(response.data.data);
+                  _this.ChangeUsername(username);
+                  console.log("kjusernaessm",localStorage.getItem("username"));
+                  console.log("kjusernaem",username);
                 this.$router.push({
                   
                   path: "/main",

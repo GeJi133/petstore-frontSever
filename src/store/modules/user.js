@@ -20,7 +20,9 @@ const user = {
         })
       })
     },
-    GetUser(username) {
+    GetUser({commit}) {
+      var username=localStorage.getItem("username");
+      console.log('resopnsee', username);
       return new Promise((resolve, reject) => {
         console.log("suername0",username)
         getUser(username).then(response => {
@@ -32,7 +34,8 @@ const user = {
         })
       })
     },
-    UpdateUser(user) {
+    
+    UpdateUser({commit},user) {
       return new Promise((resolve, reject) => {
         console.log("suername0",user)
         updateUser(user).then(response => {

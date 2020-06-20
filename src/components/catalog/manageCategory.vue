@@ -74,8 +74,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="category in this.$route.query.categoryList">
-                        <tr v-for="category in this.categoryList">
+                    <tr v-for="category in this.$route.query.categoryList"></tr>
+                    <tr v-for="category in this.categoryList">
                       <td>{{category.categoryId}}</td>
                       <td>{{category.name}}</td>
                       <td>{{category.description}}</td>
@@ -87,7 +87,6 @@
                         >查看</button>
                       </td>
                     </tr>
-
                   </tbody>
                 </table>
               </div>
@@ -116,7 +115,6 @@ export default {
   name: "orderList",
   data() {
     return {
-    
       categoryList: {}
     };
   },
@@ -127,7 +125,7 @@ export default {
     getProducts(categoryId) {
       console.log("getProducts");
       this.loading = true;
-      this.$store.dispatch("GetProducts",categoryId).then(response => {
+      this.$store.dispatch("GetProducts", categoryId).then(response => {
         this.loading = false;
         console.log("进来orderList");
         let status = response.data.code;
@@ -135,12 +133,13 @@ export default {
 
         if (status == 200) {
           var productList = response.data.data;
-    
+
           this.$router.push({
             // path: "/orderList",
             path: "/manageProduct",
             query: {
               productList: productList,
+              categoryId: categoryId
             }
           });
         }

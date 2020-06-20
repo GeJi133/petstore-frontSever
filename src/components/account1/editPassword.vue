@@ -48,141 +48,134 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
-              <a href="#">Account</a>
+              <a href="#">catalog</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page">editPasword</li>
+            <li class="breadcrumb-item active" aria-current="page">addItem</li>
           </ol>
         </nav>
       </div>
 
       <!-- 页面内容 -->
-  <div class="main-wrapper">
-    <div class="row">
-      <div class="col-xl">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Validation</h5>
-            <p>Provide valuable, actionable feedback to your users with HTML5 form validation.</p>
-            <form action="/users/editAccount" method="post" class="needs-validation" novalidate>
-              <div class="form-row">
-                <div class="col-md-4 mb-3">
-                  <label for="inputPhone">手机号</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputPhone"
-                    name="phone"
-                    v-model="userForm.phone"
-                    eplaceholder="First name"
-                    value="Mark"
-                    required
-                  />
-                  <div class="valid-feedback">Looks good!</div>
-                </div>
-                <div class="col-md-4 mb-3">
-                  <label for="inputState">State</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputState"
-                    name="state"
-                    v-model="userForm.state"
-                    placeholder="Last name"
-                    value="Otto"
-                    required
-                  />
-                  <div class="valid-feedback">Looks good!</div>
-                </div>
+      <div class="main-wrapper">
+        <div class="row">
+          <div class="col-xl">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">添加商品</h4>
+                <h5 class="card-title">itemid</h5>
+
+                <form>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1" >itemId</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.itemId"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="sel1">类别</label>
+                    <select class="form-control"  v-on:change="getProducts($event)">
+                      <option
+                        v-for="category in categoryList"
+                        v-bind:value="category.categoryId"
+                      >{{category.categoryId}}</option>
+                    </select>
+                
+                    <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
+                      <option
+                        v-for="category in categoryList"
+                        v-bind="category.categoryId"
+                      >{{category.name}}</option>
+                    </select>-->
+                  </div>
+                  <div class="form-group">
+                    <label for="sel1">种类</label>
+                    <select class="form-control" v-model="itemForm.productId" id="sel1">
+                      <option
+                        v-for="product in productList"
+                        v-bind="product.productId"
+                      >{{product.productId}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">商品特性</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.attribute1"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">商品特性2</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.attribute2"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">商品特性3</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.attribute3"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">数量</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.quantity"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">最低价格</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.listPrice"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">价格</label>
+                    <input
+                      type="text"
+                      v-model="itemForm.unitCost"
+                      class="form-control"
+                      id="exampleInputEmail1"
+                      aria-describedby="emailHelp"
+                      placeholder="Enter email"
+                    />
+                  </div>
+                </form>
+                <button @click="newItem()" class="btn btn-primary">提交修改</button>
               </div>
-              <div class="form-row">
-                <div class="col-md-6 mb-3">
-                  <label for="inputCity">City</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="inputCity"
-                    name="city"
-                    v-model="userForm.city"
-                    placeholder="City"
-                    required
-                  />
-                  <div class="invalid-feedback">Please provide a valid city.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="inputAddress1">Address1</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="address1"
-                    id="inputAddress1"
-                    v-model="userForm.address1"
-                    placeholder="State"
-                    required
-                  />
-                  <div class="invalid-feedback">Please provide a valid state.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="inputAddress1">Address1</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="address2"
-                    v-model="userForm.address2"
-                    placeholder="State"
-                    required
-                  />
-                  <div class="invalid-feedback">Please provide a valid state.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="inputZip">Zip</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="zip"
-                    v-model="userForm.zip"
-                    id="inputZip"
-                    placeholder="Zip"
-                    required
-                  />
-                  <div class="invalid-feedback">Please provide a valid zip.</div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="inputStatus">Status</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="status"
-                    v-model="userForm.status"
-                    id="inputStatus"
-                    placeholder="Zip"
-                    required
-                  />
-                  <div class="invalid-feedback">Please provide a valid zip.</div>
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="custom-control custom-checkbox">
-                  <input
-                    class="custom-control-input"
-                    type="checkbox"
-                    value
-                    id="invalidCheck"
-                    required
-                  />
-                  <label
-                    class="custom-control-label"
-                    for="invalidCheck"
-                  >Agree to terms and conditions</label>
-                  <div class="invalid-feedback">You must agree before submitting.</div>
-                </div>
-              </div>
-            </form>
-            <button @click="updateUser" class="btn btn-primary" type="submit">Submit form</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
       <!-- 页面内容 -->
     </div>
 
@@ -205,20 +198,24 @@ export default {
   name: "First",
   data() {
     return {
-      userForm: {}
+      userForm: {},
+      user
     };
   },
   created(){
       this.userForm=this.$route.query.user;
+      console.log('beforeMonut');
   },
   methods: {
     updateUser(){
-      console.log("newItem");
+      var _this=this;
+      console.log("newItem",_this.userForm);
       this.loading = true;
-      this.$store.dispatch("UpdateUser", this.userForm).then(response => {
+      console.log("userForm")
+      this.$store.dispatch("UpdateUser",_this.userForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        if (status == 204) {
           alert("修改成功");
         }else{
           alert("修改失败");

@@ -68,13 +68,13 @@
                   <div class="form-group">
                     <label for="exampleInputEmail1">商品Id</label>
                     <input
-                    
+                    @change="checkId()"
                       type="text"
                       v-model="productForm.productId"
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      placeholder="商品Id"
                     />
                   </div>
 
@@ -87,7 +87,7 @@
                       class="form-control"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      placeholder="商品名"
                     />
                   </div>
 
@@ -97,7 +97,7 @@
                       <option
                         v-for="category in categoryList"
                         v-bind="category.categoryId"
-                      >{{category.name}}</option>
+                      >{{category.categoryId}}</option>
                     </select>
                   </div>
                   <div class="form-group">
@@ -108,7 +108,7 @@
                       v-model="productForm.description"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      placeholder="商品描述"
                     />
                   </div>
                   <div class="form-group">
@@ -119,7 +119,7 @@
                       v-model="productForm.descriptionText"
                       id="exampleInputEmail1"
                       aria-describedby="emailHelp"
-                      placeholder="Enter email"
+                      placeholder="详细描述"
                     />
                   </div>
                 </form>
@@ -157,6 +157,20 @@ export default {
   },
 
   methods: {
+    checkId() {
+      this.loading = true;
+      this.$store.dispatch("GetProduct",productId).then(response => {
+        this.loading = false;
+        console.log("进来categoryList");
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+        if (status == 200) {
+          this.categoryList = response.data.data;
+          console.log("order", productList[1].categoryId);
+          console.log("manageCategory");
+        }
+      });
+    },
     idcreated() {
       this.loading = true;
       this.$store.dispatch("GetCategorys").then(response => {
@@ -194,10 +208,11 @@ export default {
       this.$store.dispatch("NewProduct", this.productForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        console.log("插入",status);
+        if (status == 204) {
           alert("插入成功");
         } else {
-          alert("插入失败");
+          alert(response.data.message);
         }
       });
     }

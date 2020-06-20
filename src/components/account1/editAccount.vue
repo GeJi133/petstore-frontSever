@@ -115,7 +115,7 @@
                     class="form-control"
                     name="address1"
                     id="inputAddress1"
-                    v-model="userForm.address1"
+                    v-model="userForm.addr1"
                     placeholder="State"
                     required
                   />
@@ -127,7 +127,7 @@
                     type="text"
                     class="form-control"
                     name="address2"
-                    v-model="userForm.address2"
+                    v-model="userForm.addr2"
                     placeholder="State"
                     required
                   />
@@ -209,7 +209,7 @@ export default {
     };
   },
   created(){
-      this.userForm=this.$session.get(user);
+      this.userForm=this.$route.query.user;
   },
     beforeMount() {
       console.log('beforeMonut');
@@ -222,12 +222,14 @@ export default {
   },
   methods: {
     updateUser(){
-      console.log("newItem");
+      var _this=this;
+      console.log("newItem",_this.userForm);
       this.loading = true;
-      this.$store.dispatch("UpdateUser", this.userForm).then(response => {
+      console.log("userForm")
+      this.$store.dispatch("UpdateUser",_this.userForm).then(response => {
         this.loading = false;
         let status = response.data.code;
-        if (status == 200) {
+        if (status == 204) {
           alert("修改成功");
         }else{
           alert("修改失败");

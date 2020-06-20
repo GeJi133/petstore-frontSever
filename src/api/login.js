@@ -23,21 +23,21 @@ export function getUser (username) {
     url: '/accounts/username/'+username,
     method: 'get',
     headers:{
+      'token':localStorage.getItem('token'),
       'Content-Type':'application/x-www-form-urlencoded'},
   })
 }
 
 export function updateUser (user) {
-  var data = Qs.stringify(user);
-  console.log(data);
+
   console.log("这是login");
   return request({
-    url: '/accounts/username/'+username,
+    url: '/accounts/',
     method: 'put',
     headers:{
       'token':localStorage.getItem('token'),
-      'Content-Type':'application/x-www-form-urlencoded'},
-    data:data
+      'Content-Type':'application/JSON'},
+    data:user
   })
 }
 

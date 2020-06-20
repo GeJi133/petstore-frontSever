@@ -76,14 +76,13 @@
                       placeholder="Enter email"
                     />
                   </div>
-
                   <div class="form-group">
                     <label for="sel1">类别</label>
-                    <select class="form-control" v-on:change="getProducts($event)">
+                    <select class="form-control" @click="getCategory()" v-on:change="getProducts($event)">
                       <option
                         v-for="category in categoryList"
                         v-bind:value="category.categoryId"
-                      >{{category.name}}</option>
+                      >{{category.categoryId}}</option>
                     </select>
                     <!-- <select class="form-control" @change="getProducts()" ref v-model="itemForm.categoryId" id="sel1">
                       <option
@@ -216,6 +215,18 @@ export default {
     });
   },
   methods: {
+        getCategory(){
+          this.$store.dispatch("GetCategorys").then(response => {
+      this.loading = false;
+      console.log("进来categoryList");
+      let status = response.data.code;
+      console.log("orderList", response.data.data);
+      if (status == 200) {
+        this.categoryList = response.data.data;
+        console.log("manageCategory");
+      }
+    });
+    },
     getProducts(event) {
       console.log("getPrssoducts", event.target.value);
       var categoryId = event.target.value;

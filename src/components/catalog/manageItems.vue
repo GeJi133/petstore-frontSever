@@ -56,49 +56,56 @@
       </div>
 
       <!-- 页面内容 -->
-    <div class="main-wrapper">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Zero Configuration</h5>
-              <a href="#" @click="addItem()" class="btn btn-primary m-b-md">添加商品</a>
-              <table id="zero-conf" class="display" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>商品id</th>
-                    <th>商品类别</th>
-                    <th>最低价格</th>
-                    <th>供应商</th>
-                    <th>数量</th>
-                    <th>修改</th>
-                    <th>删除</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in itemList">
-                    <td>
-                      <a href="../catalog/viewItem.html">{{item.itemId}}</a>
-                    </td>
-                    <td>{{item.productId}}</td>
-                    <td>{{item.listPrice}}</td>
-                    <td>{{item.status}}</td>
-                    <td>{{item.quantity}}</td>
-                    <td>
-                      <button @click="updateItem(item.itemId)" type="button" class="btn btn-outline-info">修改</button>
-                    </td>
-                    <td>
-                      <button @click="deleteItem(item.itemId)" type="button" class="btn btn-outline-info">删除</button>
-                    </td>
-                  </tr>
-
-                </tbody>
-              </table>
+      <div class="main-wrapper">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Zero Configuration</h5>
+                <a href="#" @click="addItem()" class="btn btn-primary m-b-md">添加商品</a>
+                <table id="zero-conf" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>商品id</th>
+                      <th>商品类别</th>
+                      <th>最低价格</th>
+                      <th>供应商</th>
+                      <th>数量</th>
+                      <th>修改</th>
+                      <th>删除</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="item in itemList">
+                      <td>
+                        <a href="#" @click="viewItem(item.itemId)">{{item.itemId}}</a>
+                      </td>
+                      <td>{{item.productId}}</td>
+                      <td>{{item.listPrice}}</td>
+                      <td>{{item.status}}</td>
+                      <td>{{item.quantity}}</td>
+                      <td>
+                        <button
+                          @click="updateItem(item.itemId)"
+                          type="button"
+                          class="btn btn-outline-info"
+                        >修改</button>
+                      </td>
+                      <td>
+                        <button
+                          @click="deleteItem(item.itemId)"
+                          type="button"
+                          class="btn btn-outline-info"
+                        >删除</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
       <!-- 页面内容 -->
     </div>
 
@@ -120,11 +127,13 @@ export default {
   name: "itemList",
   data() {
     return {
-      itemList: {}
+      itemList: {},
+      productId:""
     };
   },
   created() {
     this.itemList = this.$route.query.itemList;
+    this.productId=this.itemList[0].getproductId
   },
   methods: {
     addItem() {
@@ -134,28 +143,79 @@ export default {
         query: {}
       });
     },
-    deleteItem(itemId) {},
     updateItem(itemId) {
       console.log("updateItem");
       this.loading = true;
-      this.$store.dispatch("GetItem",itemId).then(response => {
+      this.$store.dispatch("GetItem", itemId).then(response => {
         this.loading = false;
         let status = response.data.code;
         console.log("item", response.data.data);
 
         if (status == 200) {
           var item = response.data.data;
-    
+
           this.$router.push({
             // path: "/orderList",
             path: "/editItem",
             query: {
-              item: item,
+              item: item
             }
           });
         }
       });
     },
+    viewItem(itemId) {
+      console.log("viewItem");
+      this.loading = true;
+      this.$store.dispatch("GetItem", itemId).then(response => {
+        this.loading = false;
+        let status = response.data.code;
+        console.log("item", response.data.data);
+
+        if (status == 200) {
+          var item = response.data.data;
+
+          this.$router.push({
+            // path: "/orderList",
+            path: "/viewItem",
+            query: {
+              item: item
+            }
+          });
+        }
+      });
+    },
+        deleteItem(itemId) {
+      console.log("delete");
+      this.loading = true;
+      this.$store.dispatch("DeleteItem", itemId).then(response => {
+        this.loading = false;
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+        console.log("status",status);
+
+
+        if (status == 204) {
+          console.log("getProducts");
+          this.loading = true;
+          this.$store
+            .dispatch("GetItem", this.productId)
+            .then(response => {
+              this.loading = false;
+              console.log("进来orderList");
+              let status = response.data.code;
+              console.log("orderList", response.data.data);
+              console.log("status",status);
+
+              if (status == 200) {
+                this.itemId = response.data.data;
+                console.log("productList");
+              }
+            });
+        }
+      });
+    }
+
   }
 };
 </script>

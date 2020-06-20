@@ -3,6 +3,7 @@ import { getItems } from '@/api/catalog'
 import { updateItem } from '@/api/catalog'
 import { insertItem } from '@/api/catalog'
 import { deleteItem } from '@/api/catalog'
+import { deleteProduct } from '@/api/catalog'
 import { getCategorys } from '@/api/catalog'
 import { newProduct } from '@/api/catalog'
 import { getItem } from '@/api/catalog'
@@ -70,9 +71,19 @@ const order = {
                 })
             })
         },
-        DeleteItem({commit},item){
+        DeleteItem({commit},itemId){
             return new Promise((resolve,reject)=>{
-                deleteItem(item).then(response =>{
+                deleteItem(itemId).then(response =>{
+                    commit('INCREMENT')
+                    resolve(response)
+                }).catch(error =>{
+                    reject(error)
+                })
+            })
+        },
+        DeleteProduct({commit},productId){
+            return new Promise((resolve,reject)=>{
+                deleteProduct(productId).then(response =>{
                     commit('INCREMENT')
                     resolve(response)
                 }).catch(error =>{

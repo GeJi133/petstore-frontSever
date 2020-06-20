@@ -22,9 +22,9 @@ export function newProduct(product) {
     method: 'post',
     headers: {
       'token': localStorage.getItem('token'),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/JSON'
     },
-    data: data
+    data: product
   })
 }
 export function getCategorys() {
@@ -46,7 +46,8 @@ export function getItems(proId) {
     method: 'get',
     headers: {
       'token': localStorage.getItem('token'),
-       'Content-Type': 'application/x-www-form-urlencoded' },
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
   })
 }
 export function getItem(itemId) {
@@ -62,42 +63,47 @@ export function getItem(itemId) {
 }
 
 export function updateItem(item) {
-  var data = Qs.stringify(item);
-  console.log(data);
-  console.log("这是getOrder");
   return request({
     url: '/catalogs/items',
     method: 'put',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    data: data
+    headers: { 'Content-Type': 'application/JSON' },
+    data: item
   })
 }
 
 export function insertItem(item) {
-  var data = Qs.stringify(item);
-  console.log(data);
-  console.log("这是getOrder");
   return request({
     url: '/catalogs/items',
     method: 'post',
     headers: {
       'token': localStorage.getItem('token'),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/JSON'
+    },
+    data: item
+  })
+}
+
+export function deleteItem(itemId) {
+data={"itemId":itemId}
+  return request({
+    url: '/catalogs/items',
+    method: 'delete',
+    headers: {
+      'token': localStorage.getItem('token'),
+      'Content-Type': 'application/JSON'
     },
     data: data
   })
 }
 
-export function deleteItem(item) {
-  var data = Qs.stringify(item);
-  console.log(data);
-  console.log("这是getOrder");
+export function deleteProduct(productId) {
+var data={productId:productId};
   return request({
-    url: '/catalogs/items',
+    url: '/catalogs/products',
     method: 'delete',
     headers: {
-      'token': JSON.stringify(localStorage.getItem('token')),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'token': localStorage.getItem('token'),
+      'Content-Type': 'application/JSON'
     },
     data: data
   })

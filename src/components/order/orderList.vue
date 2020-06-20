@@ -77,21 +77,22 @@
                   </thead>
 
                   <tbody>
-                    <tr v-for="order in this.$route.query.orderList">
+                    <tr v-for="order in this.orderList">
                       <td>{{order.orderId}}</td>
                       <td>{{order.username}}</td>
                       <td>{{order.orderDate}}</td>
                       <td>
-                        <p v-if="order.status=='s'">未支付</p>
-                        <p v-if="order.status=='p'">待发货</p>
-                        <p v-if="order.status=='r'">已发货</p>
+                        <p v-if="order.status==='S'">未支付</p>
+                        <p v-if="order.status==='P'">待发货</p>
+                        <p v-if="order.status==='R'">已发货</p>
+                        <p v-if="order.status==='r'">{{order.status}}</p>
                       </td>
                       <td>{{order.totalPrice}}</td>
                       <td>
                         <a href="#" @click="getOrder(order.orderId)">查看详情</a>
                       </td>
-                      <td v-if="order.status=='p'">
-                        <a @click="ship(order.orderId)"></a>
+                      <td v-if="order.status=='P'">
+                        <a href="#" @click="ship(order)">去发货</a>
                       </td>
                     </tr>
                   </tbody>
@@ -122,37 +123,38 @@ export default {
   name: "orderList",
   data() {
     return {
-      orderList: []
+      orderList: {}
     };
   },
   mounted: function() {
-    this.orderList = this.$route.params.orderList;
+    this.orderList = this.$route.query.orderList;
   },
   methods: {
-    ship(itemId) {
-      var order = {};
-      this.$store.dispatch("GetItem", itemId).then(response => {
+    ship(order) {
+      order.status="R";
+      this.$store.dispatch("UpdateOrder", order).then(response => {
         this.loading = false;
         order = response.data.data;
         let status = response.data.code;
         console.log("orderList", response.data.data);
 
-        if (status == 200) {
-          order.status = "r";
-          console.log("getItem");
-          this.loading = true;
-          this.$store.dispatch("UpdateItem", this.order).then(response => {
-            this.loading = false;
-            console.log("进来orderList");
-            let status = response.data.code;
-            console.log("orderList", response.data.data);
+        if (status == 204) {
+         
+           console.log("orderList");
+      this.loading = true;
+      this.$store.dispatch("GetOrders").then(response => {
+        this.loading = false;
+        console.log("进来orderList");
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
 
-            if (status == 200) {
-              var order = response.data.data;
-              console.log("order", order.orderId);
-              alert("发货成功");
-            }
-          });
+        if (status == 200) {
+          this.orderList=response.data.data;
+          console.log("orderList",  this.orderList)
+        }
+      });
+
+
         }
       });
     },

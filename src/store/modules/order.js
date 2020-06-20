@@ -1,5 +1,6 @@
 import { getOrders } from '@/api/order'
 import { getOrder } from '@/api/order'
+import { updateOrder } from '@/api/order'
 
 const order = {
     state: () => ({
@@ -21,6 +22,18 @@ const order = {
             return new Promise((resolve,reject) =>{
                 console.log("进入promise");
                 getOrder(orderId).then(response=>{
+                    commit('INCREMENT')
+                    resolve(response)
+                }).catch(error=>{
+                    reject(error)
+                })
+            })
+        },
+        UpdateOrder({commit},order){
+            console.log("进入GetOrder");
+            return new Promise((resolve,reject) =>{
+                console.log("进入promise");
+                updateOrder(order).then(response=>{
                     commit('INCREMENT')
                     resolve(response)
                 }).catch(error=>{

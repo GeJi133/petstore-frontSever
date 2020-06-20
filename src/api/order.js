@@ -23,16 +23,14 @@ export function getOrder(orderId) {
   })
 }
 export function updateOrder(order) {
-  var data = Qs.stringify(order);
-  console.log(data);
-  console.log("这是getOrder");
+
   return request({
-    url: '/orders',
-    method: 'put',
+    url: '/orders/view/'+order.orderId,
+    method: 'patch',
     headers: {
       'token': localStorage.getItem('token'),
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/JSON'
     },
-    data: data
+    data:order
   })
 }

@@ -14,21 +14,23 @@
       </div>
       <div class="page-sidebar-inner slimscroll">
         <ul class="accordion-menu">
-       
-          <p id="checkInfo" ></p>
+          <p id="checkInfo"></p>
           <li>
-            <a @click="editAccount()">
+            <a >
               <i class="material-icons">text_format</i>用户管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
             <ul class="sub-menu">
               <li>
-                <a >信息查看</a>
+                <a @click="editAccount()">信息查看</a>
+              </li>
+              <li>
+                <a @click="editPassword()">修改密码</a>
               </li>
             </ul>
           </li>
           <li>
-            <a @click="managecategory">
+            <a >
               <i class="material-icons">apps</i>商品管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
@@ -39,7 +41,7 @@
             </ul>
           </li>
           <li>
-            <a  @click="orderList()">
+            <a @click="orderList">
               <i class="material-icons">card_giftcard</i>订单管理
               <i class="material-icons has-sub-menu">add</i>
             </a>
@@ -75,27 +77,23 @@ export default {
   },
   methods: {
     managecategory() {
-        this.loading = true
-        this.$store.dispatch('GetCategorys').then(response =>{
-        this.loading=false;
-        console.log('进来categoryList');
+      this.loading = true;
+      this.$store.dispatch("GetCategorys").then(response => {
+        this.loading = false;
+        console.log("进来categoryList");
         let status = response.data.code;
-        console.log("orderList",response.data.data);
-        if(status == 200){
+        console.log("orderList", response.data.data);
+        if (status == 200) {
           var categoryList = response.data.data;
           console.log("manageCategory");
           this.$router.push({
             path: "/manageCategory",
-            query: {categoryList: categoryList,
-            username:"a"
-            }
+            query: { categoryList: categoryList, username: "a" }
           });
         }
-      })
-
+      });
     },
-    manageProduct() {
-    },
+    manageProduct() {},
     manageItem() {
       console.log("manageItem");
       this.$router.push({
@@ -105,32 +103,71 @@ export default {
     },
     orderList() {
       console.log("orderList");
-      this.loading = true
-      this.$store.dispatch('GetOrders').then(response =>{
-        this.loading=false;
-        console.log('进来orderList');
+      this.loading = true;
+      this.$store.dispatch("GetOrders").then(response => {
+        this.loading = false;
+        console.log("进来orderList");
         let status = response.data.code;
-        console.log("orderList",response.data.data);
-        
-        if(status == 200){
+        console.log("orderList", response.data.data);
+
+        if (status == 200) {
           var orderList = response.data.data;
-          console.log("order",orderList[1].orderId);
+          console.log("order", orderList[1].orderId);
           this.$router.push({
-                  path: "/orderList",
-                  query: {
-                    orderList:orderList,
-                    username:"username"
-                    }
-      });
+            path: "/orderList",
+            query: {
+              orderList: orderList,
+              username: "username"
+            }
+          });
         }
-      })      
+      });
     },
     editAccount() {
-      console.log("viewAccount");
-      this.$router.push({
-        path: "/editUser",
-        query: {}
-      });
+  
+      this.loading = true;
+      this.$store
+        .dispatch("GetUser")
+        .then(response => {
+          this.loading = false;
+          console.log("进来orderList");
+          let status = response.data.code;
+          console.log("orderList", response.data.data);
+
+          if (status == 200) {
+            var user = response.data.data;
+            this.$router.push({
+              // path: "/orderList",
+              path: "/editUser",
+              query: {
+                user: user
+              }
+            });
+          }
+        });
+    },
+        editPassword() {
+  
+      this.loading = true;
+      this.$store
+        .dispatch("GetUser")
+        .then(response => {
+          this.loading = false;
+          console.log("进来orderList");
+          let status = response.data.code;
+          console.log("orderList", response.data.data);
+
+          if (status == 200) {
+            var user = response.data.data;
+            this.$router.push({
+              // path: "/orderList",
+              path: "/editPasword",
+              query: {
+                user: user
+              }
+            });
+          }
+        });
     }
   }
 };

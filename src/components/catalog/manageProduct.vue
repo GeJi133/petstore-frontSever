@@ -56,44 +56,44 @@
       </div>
 
       <!-- 页面内容 -->
-    <div class="main-wrapper">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">商品列表</h5>
-              <a @click="addProduct()" class="btn btn-primary m-b-md">添加商品</a>
-              <table id="zero-conf" class="display" style="width:100%">
-                <thead>
-                  <tr>
-                    <th>商品id</th>
-                    <th>商品类别</th>
-                    <th>商品名</th>
-                    <th>商品描述</th>
-                    <th>操作</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="product in productList">
-                    <td @click="getItems(product.productId)">{{product.productId}}</td>
-                    <td>{{product.categoryId}}</td>
-                    <td>{{product.name}}</td>
-                    <td>{{product.descn}}</td>
-                    <td>
-                      <button
-                        @click="deleteProduct(product.productId)"
-                        type="button"
-                        class="btn btn-outline-info"
-                      >删除</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+      <div class="main-wrapper">
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">商品列表</h5>
+                <a href="#" @click="addProduct()" class="btn btn-primary m-b-md">添加商品</a>
+                <table id="zero-conf" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>商品id</th>
+                      <th>商品类别</th>
+                      <th>商品名</th>
+                      <th>商品描述</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="product in productList">
+                      <td @click="getItems(product.productId)">{{product.productId}}</td>
+                      <td>{{product.categoryId}}</td>
+                      <td>{{product.name}}</td>
+                      <td>{{product.descn}}</td>
+                      <td>
+                        <button
+                          @click="deleteProduct(product.productId)"
+                          type="button"
+                          class="btn btn-outline-info"
+                        >删除</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
       <!-- 页面内容 -->
     </div>
 
@@ -116,11 +116,13 @@ export default {
   name: "orderList",
   data() {
     return {
-      productList: {}
+      productList: {},
+      categoryId:""
     };
   },
   created() {
     this.productList = this.$route.query.productList;
+    this.categoryId = this.$route.query.categoryId;
   },
   methods: {
     getItems(productId) {
@@ -152,7 +154,36 @@ export default {
         query: {}
       });
     },
-    deleteProduct(productId) {}
+    deleteProduct(productId) {
+      console.log("delete");
+      this.loading = true;
+      this.$store.dispatch("DeleteProduct", productId).then(response => {
+        this.loading = false;
+        let status = response.data.code;
+        console.log("orderList", response.data.data);
+        console.log("status",status);
+
+
+        if (status == 204) {
+          console.log("getProducts");
+          this.loading = true;
+          this.$store
+            .dispatch("GetProducts", this.categoryId)
+            .then(response => {
+              this.loading = false;
+              console.log("进来orderList");
+              let status = response.data.code;
+              console.log("orderList", response.data.data);
+              console.log("status",status);
+
+              if (status == 200) {
+                this.productList = response.data.data;
+                console.log("productList");
+              }
+            });
+        }
+      });
+    }
   }
 };
 </script>
